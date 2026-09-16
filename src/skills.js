@@ -387,10 +387,14 @@ function claudeSkillsDirWarning(claudeSkillsDir = CLAUDE_SKILLS_LINK, target = C
     `${claudeSkillsDir} is a real directory, not a symlink to ${target}; ` +
     `left untouched. Backpass writes new skills to ${CANONICAL_SKILLS_DIR}, which Claude will not load ` +
     `through ${claudeSkillsDir}. To write directly to the existing directory, use ` +
-    `--skills-dir ${claudeSkillsDir} for one run, set "skillsDir": "${claudeSkillsDir}" in .backpassrc.json ` +
+    `--skills-dir ${shellQuote(claudeSkillsDir)} for one run, set "skillsDir": "${claudeSkillsDir}" in .backpassrc.json ` +
     `for project scope, or set it under the "user" block in $XDG_CONFIG_HOME/backpass/config.json for user ` +
     `scope. Otherwise merge new skill directories manually after checking for conflicts.`
   );
+}
+
+function shellQuote(value) {
+  return `'${value.replaceAll("'", "'\\''")}'`;
 }
 
 function inspectClaudeSkillsLink(repoRoot, claudeSkillsDir = CLAUDE_SKILLS_LINK) {
